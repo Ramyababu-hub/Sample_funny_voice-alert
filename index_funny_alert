@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hear Me Out 😏</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #1e1e2f, #3a3a5f);
+    color: white;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.card {
+    background: rgba(255,255,255,0.08);
+    padding: 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+}
+
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.yes { background: #4CAF50; color: white; }
+.no { background: #ff4b5c; color: white; }
+
+button:hover { transform: scale(1.05); }
+
+input {
+    padding: 12px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    margin-top: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.heart {
+    position: fixed;
+    top: -10px;
+    font-size: 20px;
+    animation: fall 4s linear infinite;
+    z-index: 999;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loginPage" class="container">
+    <div class="card">
+        <h2>Do you wanna hear me out? 😏</h2>
+
+        <button class="yes" onclick="clickYes()">YES</button>
+        <button class="no" onclick="clickNo()">NO</button>
+    </div>
+</div>
+
+<div id="mainPage" class="container" style="display:none;">
+    <div class="card">
+        <h2>Enter an Even Number</h2>
+
+        <input type="number" id="num" placeholder="Type here..." />
+        <br><br>
+
+        <button onclick="checkNumber()">Check</button>
+
+        <div id="result"></div>
+    </div>
+</div>
+
+<script>
+
+speechSynthesis.onvoiceschanged = () => {};
+
+function speak(text) {
+    let msg = new SpeechSynthesisUtterance(text);
+
+    let voices = speechSynthesis.getVoices();
+
+    let femaleVoice =
+        voices.find(v => v.name.toLowerCase().includes("female")) ||
+        voices.find(v => v.name.toLowerCase().includes("zira")) ||
+        voices.find(v => v.name.toLowerCase().includes("samantha")) ||
+        voices.find(v => v.lang === "en-IN") ||
+        voices[0];
+
+    msg.voice = femaleVoice;
+    msg.rate = 0.9;
+    msg.pitch = 1.2;
+
+    speechSynthesis.speak(msg);
+}
+
+function clickYes(){
+    speak("I know, you will");
+
+    setTimeout(() => {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("mainPage").style.display = "flex";
+    }, 1500);
+}
+
+function clickNo(){
+    speak("Mooditu yes click pannu da Mairu.pandrathu ellam pannitu vitutu polam nu paakuriya.");
+}
+
+/* CHECK */
+function checkNumber(){
+    let n = document.getElementById("num").value;
+
+    if(n === ""){
+        document.getElementById("result").innerText = "Enter something first!";
+        speak("Enter a number first");
+        return;
+    }
+
+    if(n % 2 == 0){
+        document.getElementById("result").innerText = "Correct";
+        speak("Congratulations! Neenga oru human nu prove pannitinga");
+
+        for(let i=0;i<10;i++) createHeart();
+    } else {
+        document.getElementById("result").innerText = "Wrong da human Buffalo";
+        speak("Neengal   ungalai    arivaliyaga    unarnthukondu   valnthu   kondu  irukireergal. ungaludaiya kangalai   pudaniyil vaithu   irukireergal  endru    therigirathu .  neengal    type   panni    irupathu   odd number.    Thayavu    seyithuu    ungaludaiya    human   brainai    ubhayogam    seyithu    even    numberai    type    seyyavum.    mudiya   villai    endral    moodikittu    pogavum.");
+    }
+}
+
+function createHeart(){
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 4000);
+}
+
+</script>
+
+</body>
+</html>
