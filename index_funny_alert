@@ -50,7 +50,7 @@ input {
     border: none;
     outline: none;
     margin-top: 10px;
-    width: 200px;
+    width: 220px;
     text-align: center;
 }
 
@@ -78,7 +78,19 @@ input {
 
 <body>
 
-<div id="loginPage" class="container">
+<!-- 🔐 SECRET CODE PAGE -->
+<div id="secretPage" class="container">
+    <div class="card">
+        <h2>Enter Secret Code 🔐</h2>
+        <input type="password" id="secretInput" placeholder="Enter code..." />
+        <br><br>
+        <button onclick="checkSecret()">Unlock ❤️</button>
+        <p id="error" style="color:red;"></p>
+    </div>
+</div>
+
+<!-- 😏 LOGIN -->
+<div id="loginPage" class="container" style="display:none;">
     <div class="card">
         <h2>Do you wanna hear me out? 😏</h2>
 
@@ -87,6 +99,7 @@ input {
     </div>
 </div>
 
+<!-- 🔢 EVEN CHECK -->
 <div id="mainPage" class="container" style="display:none;">
     <div class="card">
         <h2>Enter an Even Number</h2>
@@ -102,6 +115,22 @@ input {
 
 <script>
 
+/* 🔐 SECRET CODE */
+const correctCode = "karthiramya";
+
+function checkSecret(){
+    let input = document.getElementById("secretInput").value;
+
+    if(input === correctCode){
+        document.getElementById("secretPage").style.display = "none";
+        document.getElementById("loginPage").style.display = "flex";
+    } else {
+        document.getElementById("error").innerText = "Wrong code 😏";
+        speak("Wrong code");
+    }
+}
+
+/* 🔊 VOICE SETUP */
 speechSynthesis.onvoiceschanged = () => {};
 
 function speak(text) {
@@ -123,6 +152,7 @@ function speak(text) {
     speechSynthesis.speak(msg);
 }
 
+/* 😏 LOGIN */
 function clickYes(){
     speak("I know, you will");
 
@@ -133,10 +163,10 @@ function clickYes(){
 }
 
 function clickNo(){
-    speak("Mooditu yes click pannu da Mairu.pandrathu ellam pannitu vitutu polam nu paakuriya.");
+    speak("Mooditu yes click pannu da Mairu. pandrathu ellam pannitu vitutu polam nu paakuriya.");
 }
 
-/* CHECK */
+/* 🔢 CHECK */
 function checkNumber(){
     let n = document.getElementById("num").value;
 
@@ -153,10 +183,11 @@ function checkNumber(){
         for(let i=0;i<10;i++) createHeart();
     } else {
         document.getElementById("result").innerText = "Wrong da human Buffalo";
-        speak("Neengal   ungalai    arivaliyaga    unarnthukondu   valnthu   kondu  irukireergal. ungaludaiya kangalai   pudaniyil vaithu   irukireergal  endru    therigirathu .  neengal    type   panni    irupathu   odd number.    Thayavu    seyithuu    ungaludaiya    human   brainai    ubhayogam    seyithu    even    numberai    type    seyyavum.    mudiya   villai    endral    moodikittu    pogavum.");
+        speak("Neengal ungalai arivaliyaga ninaithu kondu valnthuttu irukureenga. ungaludaiya kangalai pudaniyil vaithu irukireergal endru therigirathu . neengal type panni irupathu odd number. Thayavu seyithuu ungaludaiya human brainai ubhayogam seyithu even numberai type seyyavum. mudiya villai endral moodikittu pogavum");
     }
 }
 
+/* ❤️ HEARTS */
 function createHeart(){
     let heart = document.createElement("div");
     heart.className = "heart";
